@@ -32,8 +32,8 @@ const experiences = [
       {experiences.map((exp, i) => (
         <div class={`reveal reveal-delay-${i + 1} flex gap-4 group`}>
           <div class="flex flex-col items-center">
-            <div class="company-avatar overflow-hidden p-0">
-              <img src={exp.logo} alt={exp.company} class="w-full h-full object-cover" loading="lazy" />
+            <div class="company-avatar size-16 !p-1.5 !bg-white overflow-hidden shadow-sm">
+              <img src={exp.logo} alt={exp.company} class="w-full h-full object-contain" loading="lazy" />
             </div>
             {i < experiences.length - 1 && (
               <div class="w-px flex-1 bg-border"></div>
