@@ -1,29 +1,29 @@
 ---
 const languages = [
-  { name: "Python", pct: 95, icon: "/Assets/tech/python.jpeg" },
-  { name: "JavaScript", pct: 90, icon: "/Assets/tech/javascript.png" },
-  { name: "Java", pct: 70, icon: "/Assets/tech/java.png" },
-  { name: "C/C++", pct: 65, icon: "/Assets/tech/ISO_C++_Logo.svg.png" },
+  { name: "Python", icon: "/Assets/tech/python.jpeg" },
+  { name: "JavaScript", icon: "/Assets/tech/javascript.png" },
+  { name: "Java", icon: "/Assets/tech/java.png" },
+  { name: "C/C++", icon: "/Assets/tech/ISO_C++_Logo.svg.png" },
 ];
 
 const frameworks = [
-  { name: "React.js", pct: 95, icon: "/Assets/tech/React-icon.svg.png" },
-  { name: "Django", pct: 85, icon: "/Assets/tech/django.png" },
-  { name: "Node.js", pct: 80, icon: "/Assets/tech/nodejs.jpg" },
-  { name: "SpringBoot", pct: 90, icon: "/Assets/tech/springboot.png" },
+  { name: "React.js", icon: "/Assets/tech/React-icon.svg.png" },
+  { name: "Django", icon: "/Assets/tech/django.png" },
+  { name: "Node.js", icon: "/Assets/tech/nodejs.jpg" },
+  { name: "SpringBoot", icon: "/Assets/tech/springboot.png" },
 ];
 
 const cloud = [
-  { name: "Azure", pct: 85, icon: "/Assets/tech/azure.png" },
-  { name: "Docker", pct: 90, icon: "/Assets/tech/docker.png" },
-  { name: "Git & GitHub", pct: 90, icon: "/Assets/tech/Git-and-GitHub.png" },
-  { name: "Firebase", pct: 85, icon: "/Assets/tech/firebase.jpg" },
+  { name: "Azure", icon: "/Assets/tech/azure.png" },
+  { name: "Docker", icon: "/Assets/tech/docker.png" },
+  { name: "Git & GitHub", icon: "/Assets/tech/Git-and-GitHub.png" },
+  { name: "Firebase", icon: "/Assets/tech/firebase.jpg" },
 ];
 
 const databases = [
-  { name: "PostgreSQL", pct: 90, icon: "/Assets/tech/postgres.png" },
-  { name: "Redis", pct: 80, icon: "/Assets/tech/redis-logo.svg" },
-  { name: "MongoDB", pct: 75, icon: "/Assets/tech/mongodb.png" },
+  { name: "PostgreSQL", icon: "/Assets/tech/postgres.png" },
+  { name: "Redis", icon: "/Assets/tech/redis-logo.svg" },
+  { name: "MongoDB", icon: "/Assets/tech/mongodb.png" },
 ];
 
 const categories = [
@@ -55,20 +55,9 @@ const categories = [
               <span class="font-mono text-accent font-medium text-lg block mb-4">{cat.label}</span>
               <div class="space-y-3">
                 {cat.skills.map((skill) => (
-                  <div>
-                    <div class="flex items-center justify-between text-sm font-mono mb-1">
-                      <span class="flex items-center gap-2 text-text-secondary">
-                        <img src={skill.icon} alt={skill.name} class="w-5 h-5 object-contain rounded-sm" loading="lazy" />
-                        {skill.name}
-                      </span>
-                      <span class="text-text-muted">{skill.pct}%</span>
-                    </div>
-                    <div class="skill-bar">
-                      <div
-                        class="skill-bar-fill"
-                        data-width={`${skill.pct}%`}
-                      ></div>
-                    </div>
+                  <div class="flex items-center gap-2 text-base font-mono py-1">
+                    <img src={skill.icon} alt={skill.name} class="w-5 h-5 object-contain rounded-sm" loading="lazy" />
+                    <span class="text-text-secondary">{skill.name}</span>
                   </div>
                 ))}
               </div>

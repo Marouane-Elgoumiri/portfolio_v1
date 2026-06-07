@@ -2,6 +2,8 @@
 ---
 
 <section class="min-h-screen flex items-center justify-center px-6 pt-16 relative overflow-hidden" id="hero">
+  <div class="hero-cursor" id="hero-cursor" aria-hidden="true"></div>
+
   <div class="hero-bg" aria-hidden="true">
     <div class="hero-gradient"></div>
     <div class="hero-grid"></div>
@@ -57,9 +59,17 @@
           <span class="cursor"></span>
         </div>
         <div id="hero-output" class="opacity-0 transition-opacity duration-500">
-          <div class="mb-1">
-            <span class="text-accent font-semibold text-lg">Hello, I'm</span>
-            <span class="text-text-primary font-semibold text-2xl ml-2">Marwan</span>
+          <div class="mb-2 flex items-center gap-3">
+            <img
+              src="/Assets/social/profile.jpg"
+              alt="Marwan EL GOUMIRI"
+              class="w-40 h-40 rounded-3xl object-cover border-[3px] border-accent/90 shadow-[0_0_25px_var(--color-accent-glow)]"
+              loading="eager"
+            />
+            <div>
+              <span class="text-accent font-semibold text-lg">Hello, I'm</span>
+              <span class="text-text-primary font-semibold text-2xl ml-2">Marwan</span>
+            </div>
           </div>
           <div class="output mb-3">A developer who builds and creates solutions.</div>
           <div class="flex flex-wrap gap-2 mt-4">
@@ -123,5 +133,78 @@
       }
     };
     setTimeout(type, 800);
+  }
+</script>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduceMotion) {
+    const hero = document.getElementById("hero");
+    const cursor = document.getElementById("hero-cursor");
+    if (hero && cursor) {
+      let mouseX = 0, mouseY = 0;
+      let currentX = 0, currentY = 0;
+      let active = false;
+      const lerp = 0.18;
+
+      const onMove = (e: MouseEvent) => {
+        const rect = hero.getBoundingClientRect();
+        if (
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right &&
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom
+        ) {
+          mouseX = e.clientX - rect.left;
+          mouseY = e.clientY - rect.top;
+          if (!active) {
+            active = true;
+            currentX = mouseX;
+            currentY = mouseY;
+            cursor.classList.add("active");
+          }
+        } else if (active) {
+          active = false;
+          cursor.classList.remove("active");
+        }
+      };
+
+      const tick = () => {
+        currentX += (mouseX - currentX) * lerp;
+        currentY += (mouseY - currentY) * lerp;
+        cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+
+      const onDown = (e: MouseEvent) => {
+        const rect = hero.getBoundingClientRect();
+        if (
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right &&
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom
+        ) {
+          cursor.classList.add("clicking");
+          const ripple = document.createElement("div");
+          ripple.className = "hero-ripple";
+          ripple.style.left = `${e.clientX - rect.left}px`;
+          ripple.style.top = `${e.clientY - rect.top}px`;
+          hero.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 850);
+        }
+      };
+
+      const onUp = () => cursor.classList.remove("clicking");
+
+      window.addEventListener("mousemove", onMove, { passive: true });
+      window.addEventListener("mousedown", onDown, { passive: true });
+      window.addEventListener("mouseup", onUp, { passive: true });
+
+      hero.addEventListener("mouseleave", () => {
+        active = false;
+        cursor.classList.remove("active");
+      });
+    }
   }
 </script>
