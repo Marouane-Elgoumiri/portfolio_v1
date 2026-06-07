@@ -64,19 +64,19 @@ const palettes = [
         </a>
       ))}
       <div class="palette-picker">
-        <button class="palette-picker-btn" id="palette-btn" aria-label="Color palette">
-          <span class="palette-dot" style="background:#d97757"></span>
-          <span class="palette-dot" style="background:#2dd4bf"></span>
-          <span class="palette-dot" style="background:#4ade80"></span>
-          <span class="palette-dot" style="background:#a78bfa"></span>
+        <button class="palette-picker-btn" id="palette-btn" aria-label="Color palette" aria-expanded="false">
+          <span class="palette-swatch" id="palette-swatch-desktop" style={`--swatch-dark:${palettes[0].dark};--swatch-light:${palettes[0].light}`}></span>
+          <span id="palette-label-desktop">Ember</span>
+          <span class="palette-chevron"></span>
         </button>
         <div class="palette-dropdown" id="palette-dropdown">
           {palettes.map((p) => (
-            <button class="palette-option" data-palette={p.id} data-name={p.name.toLowerCase()}>
-              <span class="palette-option-dots">
-                <span class="palette-dot" style={`background:${p.dark}`}></span>
-              </span>
-              {p.name}
+            <button class="palette-option" data-palette={p.id} data-name={p.name} style={`--swatch-dark:${p.dark};--swatch-light:${p.light}`}>
+              <span class="palette-option-swatch"></span>
+              <span class="palette-option-name">{p.name}</span>
+              <svg class="palette-option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
             </button>
           ))}
         </div>
@@ -97,19 +97,19 @@ const palettes = [
 
     <div class="flex items-center gap-2 md:hidden">
       <div class="palette-picker">
-        <button class="palette-picker-btn" id="palette-btn-mobile" aria-label="Color palette">
-          <span class="palette-dot" style="background:#d97757"></span>
-          <span class="palette-dot" style="background:#2dd4bf"></span>
-          <span class="palette-dot" style="background:#4ade80"></span>
-          <span class="palette-dot" style="background:#a78bfa"></span>
+        <button class="palette-picker-btn" id="palette-btn-mobile" aria-label="Color palette" aria-expanded="false">
+          <span class="palette-swatch" id="palette-swatch-mobile" style={`--swatch-dark:${palettes[0].dark};--swatch-light:${palettes[0].light}`}></span>
+          <span id="palette-label-mobile">Ember</span>
+          <span class="palette-chevron"></span>
         </button>
         <div class="palette-dropdown" id="palette-dropdown-mobile">
           {palettes.map((p) => (
-            <button class="palette-option" data-palette={p.id} data-name={p.name.toLowerCase()}>
-              <span class="palette-option-dots">
-                <span class="palette-dot" style={`background:${p.dark}`}></span>
-              </span>
-              {p.name}
+            <button class="palette-option" data-palette={p.id} data-name={p.name} style={`--swatch-dark:${p.dark};--swatch-light:${p.light}`}>
+              <span class="palette-option-swatch"></span>
+              <span class="palette-option-name">{p.name}</span>
+              <svg class="palette-option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
             </button>
           ))}
         </div>
@@ -213,6 +213,13 @@ const palettes = [
     "palette-violet": { dark: "#0d0a14", light: "#f5f0fa" },
   };
 
+  const swatchColors: Record<string, { dark: string; light: string }> = {
+    "": { dark: "#d97757", light: "#c4613e" },
+    "palette-ocean": { dark: "#2dd4bf", light: "#0d9488" },
+    "palette-forest": { dark: "#4ade80", light: "#16a34a" },
+    "palette-violet": { dark: "#a78bfa", light: "#7c3aed" },
+  };
+
   const applyPalette = (paletteId: string) => {
     const paletteClasses = ["palette-ocean", "palette-forest", "palette-violet"];
     paletteClasses.forEach((c) => html.classList.remove(c));
@@ -221,9 +228,20 @@ const palettes = [
     const colors = themeColors[paletteId] || themeColors[""];
     const meta = document.getElementById("theme-color");
     meta?.setAttribute("content", html.classList.contains("light") ? colors.light : colors.dark);
-    document.querySelectorAll(".palette-option").forEach((btn) => {
-      const el = btn as HTMLElement;
-      el.classList.toggle("active", el.dataset.palette === paletteId);
+    const swatch = swatchColors[paletteId] || swatchColors[""];
+    const label = palettes.find((p) => p.id === paletteId)?.name || "Ember";
+    document.querySelectorAll<HTMLElement>(".palette-swatch").forEach((el) => {
+      el.style.setProperty("--swatch-dark", swatch.dark);
+      el.style.setProperty("--swatch-light", swatch.light);
+    });
+    document.querySelectorAll<HTMLElement>(".palette-picker-btn").forEach((btn) => {
+      btn.setAttribute("aria-expanded", "false");
+    });
+    document.querySelectorAll<HTMLElement>("#palette-label-desktop, #palette-label-mobile").forEach((el) => {
+      el.textContent = label;
+    });
+    document.querySelectorAll<HTMLElement>(".palette-option").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.palette === paletteId);
     });
     document.querySelectorAll(".palette-dropdown").forEach((d) => d.classList.remove("open"));
   };
@@ -233,10 +251,15 @@ const palettes = [
     const dropdown = document.getElementById(dropdownId);
     btn?.addEventListener("click", (e) => {
       e.stopPropagation();
-      const isOpen = dropdown?.classList.toggle("open");
+      const wasOpen = dropdown?.classList.contains("open");
       document.querySelectorAll(".palette-dropdown").forEach((d) => {
-        if (d !== dropdown) d.classList.remove("open");
+        d.classList.remove("open");
+        d.previousElementSibling?.setAttribute("aria-expanded", "false");
       });
+      if (!wasOpen) {
+        dropdown?.classList.add("open");
+        btn.setAttribute("aria-expanded", "true");
+      }
     });
     dropdown?.querySelectorAll(".palette-option").forEach((opt) => {
       opt.addEventListener("click", () => {
