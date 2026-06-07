@@ -1,0 +1,45 @@
+---
+import Github from "./icons/Github.astro";
+import Linkedin from "./icons/Linkedin.astro";
+import Twitter from "./icons/Twitter.astro";
+import Hackerrank from "./icons/Hackerrank.astro";
+import Leetcode from "./icons/Leetcode.astro";
+
+const socials = [
+  { label: "github", href: "https://github.com", icon: Github },
+  { label: "linkedin", href: "https://linkedin.com", icon: Linkedin },
+  { label: "twitter", href: "https://twitter.com", icon: Twitter },
+  { label: "hackerrank", href: "https://hackerrank.com", icon: Hackerrank },
+  { label: "leetcode", href: "https://leetcode.com", icon: Leetcode },
+];
+---
+
+<footer class="py-12 px-6 border-t border-border transition-colors duration-300">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="font-mono text-base text-text-muted">
+        <span class="prompt">❯ </span>
+        <span class="text-accent">exit</span>
+        <span class="ml-2 text-text-muted">— connection closed</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        {socials.map((s) => (
+          <a
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={s.label}
+            class="p-1.5 text-text-muted hover:text-accent transition-colors"
+          >
+            <s.icon class="w-5 h-5" />
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-6 text-center font-mono text-sm text-text-muted/50">
+      built with astro + tailwind · {new Date().getFullYear()}
+    </div>
+  </div>
+</footer>

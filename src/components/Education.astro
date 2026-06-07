@@ -1,0 +1,52 @@
+---
+const educations = [
+  {
+    degree: "M.Sc. Software Engineering",
+    school: "Universiapolis Agadir",
+    detail: "Specialized in distributed systems and machine learning. Research on large-scale data processing pipelines.",
+    date: "2023 – 2025",
+    tags: ["AI", "Distributed Systems", "Big Data"],
+  },
+  {
+    degree: "B.Sc. Computer Science",
+    school: "Ibn Zohr University",
+    detail: "Core coursework in algorithms, databases, and software architecture. Graduated with honors.",
+    date: "2020 – 2023",
+    tags: ["Programming", "Algorithms", "Databases", "Architecture"],
+  },
+];
+---
+
+<section id="education" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal mb-8">
+      <span class="prompt font-mono text-base">❯ </span>
+      <span class="command font-mono text-base">cat ~/education.md</span>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      {educations.map((edu, i) => (
+        <div class={`reveal reveal-delay-${i + 1} terminal-window hover:accent-border transition-all duration-300`}>
+          <div class="terminal-header">
+            <span class="terminal-dot terminal-dot-red"></span>
+            <span class="terminal-dot terminal-dot-yellow"></span>
+            <span class="terminal-dot terminal-dot-green"></span>
+            <span class="terminal-title">{edu.date}</span>
+          </div>
+          <div class="terminal-body">
+            <h3 class="font-mono text-accent font-medium text-lg mb-1">{edu.degree}</h3>
+            <p class="text-text-primary text-base mb-2">{edu.school}</p>
+            <p class="text-text-secondary text-base mb-3">{edu.detail}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {edu.tags.map((tag) => (
+                <span class="text-sm font-mono px-2 py-0.5 bg-bg-secondary text-text-muted rounded">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

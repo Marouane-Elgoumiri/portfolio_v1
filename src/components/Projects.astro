@@ -1,0 +1,111 @@
+---
+import Github from "./icons/Github.astro";
+
+const projects = [
+  {
+    name: "AI Image Detector",
+    lang: "Python",
+    desc: "A deep learning system for detecting AI-generated images using the CIFAKE dataset, with a Streamlit web interface.",
+    tech: ["Python", "Streamlit", "PyTorch"],
+    preview: "/Assets/projects_wall/ai_image_detector.png",
+    link: "#",
+    github: "https://github.com/Marouane-Elgoumiri/ai_image_detector",
+  },
+  {
+    name: "Competitive Intel",
+    lang: "JavaScript & Python",
+    desc: "Product: Stock alert & competitive intelligence tool for dropshippers. Revenue: $30–$50/month subscription. Target: 15–20 active users = $500+/month MRR.",
+    tech: ["React.js","Django","PostgreSQL", "Redis", "Docker"],
+    preview: "/Assets/projects_wall/competitive_intel.png",
+    link: "#",
+    github: "https://github.com/Marouane-Elgoumiri/saas-dropshipping",
+  },
+  {
+    name: "Linkedin Data Mining",
+    lang: "Python",
+    desc: "Analyzing Linkedin Profile data: Connections & Invites to draw a clear picture of the engagement network and the most active users in the network.",
+    tech: ["Python", "Pandas", "NumPy"],
+    preview: "/Assets/projects_wall/linkedin_mining_data.jpg",
+    link: "#",
+    github: "https://github.com/Marouane-Elgoumiri/Linkedin_mining_data",
+  },
+  {
+    name: "Solar System Simulation",
+    lang: "JavaScript",
+    desc: "A microservices architecture for scalable e-commerce platforms.",
+    tech: ["JavaScript", "Three.js", "node.js"],
+    preview: "/Assets/projects_wall/solar.png",
+    link: "https://solar-systemus.netlify.app/",
+    github: "https://github.com/Marouane-Elgoumiri/solar_system",
+  },
+];
+---
+
+<section id="projects" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal mb-8">
+      <span class="prompt font-mono text-base">❯ </span>
+      <span class="command font-mono text-base">ls -la ~/projects</span>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      {projects.map((project, i) => (
+    <div class={`reveal reveal-delay-${i + 1} group terminal-window hover:accent-border transition-all duration-300`}>
+        <div class="p-5">
+          <img
+            src={project.preview}
+            alt={project.name}
+            class="project-preview"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="p-5 pt-0 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="font-mono text-accent group-hover:text-text-primary transition-colors font-medium text-lg">
+                {project.name}
+              </span>
+              <span class="text-sm font-mono px-2 py-0.5 bg-bg-secondary text-text-muted rounded">
+                {project.lang}
+              </span>
+            </div>
+            <p class="text-text-secondary text-base mb-3">{project.desc}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {project.tech.map((t) => (
+                <span class="text-sm font-mono px-2 py-0.5 bg-bg-secondary text-text-muted rounded">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 mt-3 pt-3 border-t border-border">
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-sm font-mono text-text-secondary hover:text-accent transition-colors"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 0 0-5.656 0l-4 4a4 4 0 0 0 5.656 5.656l1.102-1.101" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.172 13.828a4 4 0 0 0 5.656 0l4-4a4 4 0 0 0-5.656-5.656l-1.102 1.101" />
+              </svg>
+              live demo
+            </a>
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-sm font-mono text-text-secondary hover:text-accent transition-colors"
+            >
+              <Github class="w-4 h-4" />
+              source
+            </a>
+          </div>
+        </div>
+      </div>
+      ))}
+    </div>
+  </div>
+</section>

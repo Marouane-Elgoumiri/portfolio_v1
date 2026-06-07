@@ -1,0 +1,88 @@
+---
+---
+
+<section id="contact" class="py-24 px-6">
+  <div class="max-w-3xl mx-auto">
+    <div class="reveal mb-8">
+      <span class="prompt font-mono text-base">❯ </span>
+      <span class="command font-mono text-base">mail --send</span>
+    </div>
+
+    <div class="reveal terminal-window">
+      <div class="terminal-header">
+        <span class="terminal-dot terminal-dot-red"></span>
+        <span class="terminal-dot terminal-dot-yellow"></span>
+        <span class="terminal-dot terminal-dot-green"></span>
+        <span class="terminal-title">compose message</span>
+      </div>
+      <div class="terminal-body">
+      <div class="mb-4 text-text-muted text-sm border-b border-border pb-2">
+        <span class="text-accent">Assistant:</span> I'd love to hear from you. Send me a message and I'll get back to you soon.
+        </div>
+
+        <form class="space-y-4" id="contact-form">
+          <div>
+          <label class="block font-mono text-sm text-text-muted mb-1">
+            <span class="text-accent">from:</span> name
+          </label>
+          <input
+            type="text"
+            name="name"
+            required
+            placeholder="Your Name"
+            class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors"
+            />
+          </div>
+
+          <div>
+          <label class="block font-mono text-sm text-text-muted mb-1">
+            <span class="text-accent">from:</span> email
+          </label>
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="you@example.com"
+            class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors"
+            />
+          </div>
+
+          <div>
+          <label class="block font-mono text-sm text-text-muted mb-1">
+            <span class="text-accent">subject:</span> message
+          </label>
+          <textarea
+            name="message"
+            rows="4"
+            required
+            placeholder="Your message..."
+            class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors resize-none"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="px-6 py-2.5 bg-accent text-bg-primary font-mono text-base font-semibold rounded hover:brightness-110 transition-all"
+          >
+            <span class="prompt text-bg-primary">❯ </span>send
+          </button>
+        </form>
+
+        <div id="form-success" class="hidden mt-4 text-green-400 font-mono text-base">
+          <span class="text-accent">Assistant:</span> Message sent! I'll reply as soon as possible ✓
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("contact-form");
+  const success = document.getElementById("form-success");
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    form.classList.add("hidden");
+    success?.classList.remove("hidden");
+  });
+</script>

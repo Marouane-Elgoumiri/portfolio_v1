@@ -1,0 +1,264 @@
+---
+import Github from "./icons/Github.astro";
+import Linkedin from "./icons/Linkedin.astro";
+import Twitter from "./icons/Twitter.astro";
+import Hackerrank from "./icons/Hackerrank.astro";
+import Leetcode from "./icons/Leetcode.astro";
+
+const links = [
+  { href: "#about", label: "~/about" },
+  { href: "#projects", label: "~/projects" },
+  { href: "#skills", label: "~/skills" },
+  { href: "#experience", label: "~/experience" },
+  { href: "#education", label: "~/education" },
+  { href: "#certifications", label: "~/certs" },
+  { href: "#contact", label: "~/contact" },
+];
+
+const socials = [
+  { href: "https://github.com", icon: Github, label: "GitHub" },
+  { href: "https://linkedin.com", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://twitter.com", icon: Twitter, label: "Twitter" },
+  { href: "https://hackerrank.com", icon: Hackerrank, label: "HackerRank" },
+  { href: "https://leetcode.com", icon: Leetcode, label: "LeetCode" },
+];
+
+const palettes = [
+  { id: "", name: "Ember", dark: "#d97757", light: "#c4613e" },
+  { id: "palette-ocean", name: "Ocean", dark: "#2dd4bf", light: "#0d9488" },
+  { id: "palette-forest", name: "Forest", dark: "#4ade80", light: "#16a34a" },
+  { id: "palette-violet", name: "Violet", dark: "#a78bfa", light: "#7c3aed" },
+];
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-bg-primary/80 border-b border-border transition-colors duration-300">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#" class="font-mono text-accent font-semibold text-xl mr-10">
+      ~/<span class="text-text-primary">portfolio</span>
+    </a>
+
+    <ul class="hidden lg:flex items-center gap-1 font-mono text-base">
+      {links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            data-nav={link.href.slice(1)}
+            class="px-3 py-2 rounded text-text-secondary hover:text-accent transition-colors text-base"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="hidden md:flex items-center gap-2">
+      {socials.map((s) => (
+        <a
+          href={s.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={s.label}
+          class="p-2 text-text-muted hover:text-accent transition-colors"
+        >
+          <s.icon class="w-5 h-5" />
+        </a>
+      ))}
+      <div class="palette-picker">
+        <button class="palette-picker-btn" id="palette-btn" aria-label="Color palette">
+          <span class="palette-dot" style="background:#d97757"></span>
+          <span class="palette-dot" style="background:#2dd4bf"></span>
+          <span class="palette-dot" style="background:#4ade80"></span>
+          <span class="palette-dot" style="background:#a78bfa"></span>
+        </button>
+        <div class="palette-dropdown" id="palette-dropdown">
+          {palettes.map((p) => (
+            <button class="palette-option" data-palette={p.id} data-name={p.name.toLowerCase()}>
+              <span class="palette-option-dots">
+                <span class="palette-dot" style={`background:${p.dark}`}></span>
+              </span>
+              {p.name}
+            </button>
+          ))}
+        </div>
+      </div>
+      <button
+        id="theme-toggle"
+        class="theme-toggle ml-1"
+        aria-label="Toggle theme"
+      >
+        <svg class="w-5 h-5 dark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="w-5 h-5 light-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex items-center gap-2 md:hidden">
+      <div class="palette-picker">
+        <button class="palette-picker-btn" id="palette-btn-mobile" aria-label="Color palette">
+          <span class="palette-dot" style="background:#d97757"></span>
+          <span class="palette-dot" style="background:#2dd4bf"></span>
+          <span class="palette-dot" style="background:#4ade80"></span>
+          <span class="palette-dot" style="background:#a78bfa"></span>
+        </button>
+        <div class="palette-dropdown" id="palette-dropdown-mobile">
+          {palettes.map((p) => (
+            <button class="palette-option" data-palette={p.id} data-name={p.name.toLowerCase()}>
+              <span class="palette-option-dots">
+                <span class="palette-dot" style={`background:${p.dark}`}></span>
+              </span>
+              {p.name}
+            </button>
+          ))}
+        </div>
+      </div>
+      <button
+        id="theme-toggle-mobile"
+        class="theme-toggle"
+        aria-label="Toggle theme"
+      >
+        <svg class="w-5 h-5 dark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="w-5 h-5 light-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+      <button
+        id="menu-toggle"
+        class="text-text-primary hover:text-accent transition-colors"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-bg-primary/95 backdrop-blur-md transition-colors duration-300">
+    <div class="flex items-center gap-3 px-6 pt-4 pb-2">
+      {socials.map((s) => (
+        <a
+          href={s.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={s.label}
+          class="p-1.5 text-text-muted hover:text-accent transition-colors"
+        >
+          <s.icon class="w-5 h-5" />
+        </a>
+      ))}
+    </div>
+    <ul class="flex flex-col font-mono text-base px-6 pb-4 gap-1">
+      {links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            data-nav={link.href.slice(1)}
+            class="mobile-nav block px-3 py-2 rounded text-text-secondary hover:text-accent transition-colors"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+
+  toggle?.addEventListener("click", () => {
+    menu?.classList.toggle("hidden");
+  });
+
+  document.querySelectorAll(".mobile-nav").forEach((link) => {
+    link.addEventListener("click", () => {
+      menu?.classList.add("hidden");
+    });
+  });
+
+  const html = document.documentElement;
+
+  const updateThemeIcons = () => {
+    const isLight = html.classList.contains("light");
+    document.querySelectorAll(".dark-icon").forEach((el) => {
+      (el as HTMLElement).style.display = isLight ? "none" : "block";
+    });
+    document.querySelectorAll(".light-icon").forEach((el) => {
+      (el as HTMLElement).style.display = isLight ? "block" : "none";
+    });
+  };
+
+  updateThemeIcons();
+
+  const toggleTheme = () => {
+    const isLight = html.classList.toggle("light");
+    localStorage.setItem("theme", isLight ? "light" : "dark");
+    const meta = document.getElementById("theme-color");
+    meta?.setAttribute("content", isLight ? "#faf8f5" : "#0d0d0d");
+    updateThemeIcons();
+  };
+
+  document.getElementById("theme-toggle-mobile")?.addEventListener("click", toggleTheme);
+
+  const themeColors: Record<string, { dark: string; light: string }> = {
+    "": { dark: "#0d0d0d", light: "#faf8f5" },
+    "palette-ocean": { dark: "#0a0f1a", light: "#f0f8f5" },
+    "palette-forest": { dark: "#0a0d0a", light: "#f2f8f0" },
+    "palette-violet": { dark: "#0d0a14", light: "#f5f0fa" },
+  };
+
+  const applyPalette = (paletteId: string) => {
+    const paletteClasses = ["palette-ocean", "palette-forest", "palette-violet"];
+    paletteClasses.forEach((c) => html.classList.remove(c));
+    if (paletteId) html.classList.add(paletteId);
+    localStorage.setItem("palette", paletteId);
+    const colors = themeColors[paletteId] || themeColors[""];
+    const meta = document.getElementById("theme-color");
+    meta?.setAttribute("content", html.classList.contains("light") ? colors.light : colors.dark);
+    document.querySelectorAll(".palette-option").forEach((btn) => {
+      const el = btn as HTMLElement;
+      el.classList.toggle("active", el.dataset.palette === paletteId);
+    });
+    document.querySelectorAll(".palette-dropdown").forEach((d) => d.classList.remove("open"));
+  };
+
+  const setupPaletteDropdown = (btnId: string, dropdownId: string) => {
+    const btn = document.getElementById(btnId);
+    const dropdown = document.getElementById(dropdownId);
+    btn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = dropdown?.classList.toggle("open");
+      document.querySelectorAll(".palette-dropdown").forEach((d) => {
+        if (d !== dropdown) d.classList.remove("open");
+      });
+    });
+    dropdown?.querySelectorAll(".palette-option").forEach((opt) => {
+      opt.addEventListener("click", () => {
+        applyPalette((opt as HTMLElement).dataset.palette || "");
+      });
+    });
+  };
+
+  setupPaletteDropdown("palette-btn", "palette-dropdown");
+  setupPaletteDropdown("palette-btn-mobile", "palette-dropdown-mobile");
+
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest(".palette-picker")) {
+      document.querySelectorAll(".palette-dropdown").forEach((d) => d.classList.remove("open"));
+    }
+  });
+
+  const savedPalette = localStorage.getItem("palette") || "";
+  if (savedPalette) applyPalette(savedPalette);
+
+  new MutationObserver(() => {
+    updateThemeIcons();
+  }).observe(html, { attributes: true, attributeFilter: ["class"] });
+</script>

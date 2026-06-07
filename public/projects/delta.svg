@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ADD8" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#1a1a2e" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#g)"/>
+  <text x="320" y="170" text-anchor="middle" font-family="monospace" font-size="28" fill="#00ADD8" opacity="0.6">project-delta</text>
+  <text x="320" y="200" text-anchor="middle" font-family="monospace" font-size="14" fill="#c4b5a0" opacity="0.4">Go · gRPC · Kubernetes</text>
+</svg>

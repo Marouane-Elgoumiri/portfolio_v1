@@ -1,0 +1,66 @@
+---
+const experiences = [
+  {
+    hash: "a1b2c3d",
+    message: "End of Study Internship - LEONI Wiring Systems",
+    company: "LEONI Wiring Systems",
+    detail: "Designed and developed a Quality Management System to monitor the production of wiring Systems",
+    date: "April 2025 – October 2025",
+    tags: ["Python", "React", "Django","Azure"],
+    logo: "/Assets/company/LEONI.jpeg",
+  },
+  {
+    hash: "e4f5g6h",
+    message: "Summer Internship - EbtikarWeb",
+    company: "EbtikarWeb",
+    detail: "Development of a CRM application using React.js, NestJS and MongoDB to manage the company's prospects and business transactions, which allows EbtikarWeb to track transactions and manage its customers.",
+    date: "July 2024 – September 2024",
+    tags: ["React", "Node.js", "MongoDB"],
+    logo: "/Assets/company/logo_ebtikarweb.jpg",
+  },
+];
+---
+
+<section id="experience" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal mb-8">
+      <span class="prompt font-mono text-base">❯ </span>
+      <span class="command font-mono text-base">git log --oneline</span>
+    </div>
+
+    <div class="space-y-0">
+      {experiences.map((exp, i) => (
+        <div class={`reveal reveal-delay-${i + 1} flex gap-4 group`}>
+          <div class="flex flex-col items-center">
+            <div class="company-avatar overflow-hidden p-0">
+              <img src={exp.logo} alt={exp.company} class="w-full h-full object-cover" loading="lazy" />
+            </div>
+            {i < experiences.length - 1 && (
+              <div class="w-px flex-1 bg-border"></div>
+            )}
+          </div>
+
+          <div class="pb-8">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="font-mono text-text-muted text-sm">{exp.hash}</span>
+              <span class="font-mono text-accent text-sm">(</span>
+              <span class="font-mono text-text-muted text-sm">{exp.date}</span>
+              <span class="font-mono text-accent text-sm">)</span>
+            </div>
+            <h3 class="font-mono text-text-primary font-medium text-lg mb-1 group-hover:text-accent transition-colors">
+              {exp.message}
+            </h3>
+            <p class="text-text-secondary text-base mb-2 max-w-lg">{exp.detail}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {exp.tags.map((tag) => (
+                <span class="text-sm font-mono px-2 py-0.5 bg-bg-secondary text-text-muted rounded">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

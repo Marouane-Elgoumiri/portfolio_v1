@@ -1,0 +1,112 @@
+---
+const stats = [
+  { label: "projects shipped", value: 42 },
+  { label: "years experience", value: 8 },
+  { label: "clients worldwide", value: 30 },
+];
+---
+
+<section id="about" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto reveal">
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <span class="terminal-dot terminal-dot-red"></span>
+        <span class="terminal-dot terminal-dot-yellow"></span>
+        <span class="terminal-dot terminal-dot-green"></span>
+        <span class="terminal-title">whoami</span>
+      </div>
+      <div class="terminal-body">
+        <div class="mb-4">
+          <span class="prompt">❯ </span>
+          <span class="command">whoami</span>
+        </div>
+
+        <div class="grid md:grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-lg">
+          <span class="text-text-muted">name</span>
+          <span class="text-text-primary">Marwan EL GOUMIRI</span>
+
+          <span class="text-text-muted">role</span>
+          <span class="text-accent">Developer</span>
+
+          <span class="text-text-muted">location</span>
+          <span class="text-text-primary">MOR 🇲🇦</span>
+
+          <span class="text-text-muted">Availability</span>
+          <span class="text-text-primary">Worldwide 🌍</span>
+
+          <span class="text-text-muted">focus</span>
+          <span class="text-text-primary">Full-Stack Development / Data / LLMs</span>
+
+          <span class="text-text-muted">status</span>
+          <span class="text-green-400">● Available for hire</span>
+
+          <span class="text-text-muted">bio</span>
+          <span class="text-text-secondary max-w-lg">
+            I think, I learn , I plan and build, my focus is on Full-Stack Development, Data Engineering, Data Analysis and AI Engineering.
+          </span>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-border">
+          <div class="mb-2">
+            <span class="prompt">❯ </span>
+            <span class="command">cat interests.txt</span>
+          </div>
+          <div class="flex flex-wrap gap-2 mt-2">
+        {["Management Systems","Open Source", "Data", "UI/UX", "Performance", "AI Engineering", "Cloud"].map((tag) => (
+          <span class="px-3 py-1.5 text-sm font-mono bg-bg-secondary text-text-secondary rounded border border-border">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <!-- <div class="mt-6 pt-4 border-t border-border">
+          <div class="mb-3">
+            <span class="prompt">❯ </span>
+            <span class="command">wc -l ~/stats</span>
+          </div>
+          <div class="grid grid-cols-3 gap-4 mt-2" id="stats-grid">
+            {stats.map((stat) => (
+              <div class="text-center p-3 bg-bg-secondary rounded-lg border border-border">
+                <div class="text-2xl font-bold text-accent font-mono" data-target={stat.value}>0</div>
+                <div class="text-xs text-text-muted font-mono mt-1">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const statsGrid = document.getElementById("stats-grid");
+  if (statsGrid) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const counters = entry.target.querySelectorAll("[data-target]");
+            counters.forEach((counter) => {
+              const el = counter as HTMLElement;
+              const target = parseInt(el.dataset.target || "0", 10);
+              let current = 0;
+              const step = Math.max(1, Math.floor(target / 40));
+              const interval = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                  current = target;
+                  clearInterval(interval);
+                }
+                el.textContent = current.toString() + (target >= 30 ? "+" : "");
+              }, 30);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(statsGrid);
+  }
+</script>

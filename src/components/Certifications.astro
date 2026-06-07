@@ -1,0 +1,84 @@
+---
+const certifications = [
+  {
+    name: "Python for Data Science and AI",
+    issuer: "IBM - Coursera",
+    date: "2025",
+    id: "SAA-C03",
+    link: "https://www.credly.com/badges/e1bea4cb-42ef-4afd-88e4-be8d852b03b7/public_url",
+    logo: "/Assets/company/ibm_logo.jpeg",
+  },
+  {
+    name: "Certified Associate In Scrum Fundamentals™ (CASF™)",
+    issuer: "Skillfront",
+    date: "2024",
+    id: "GCP-PCD",
+    link: "https://www.skillfront.com/Badges/41222256688000",
+    logo: "/Assets/company/skillfront_logo.jpeg",
+  },
+  {
+    name: "Certificate of Completion - SQL",
+    issuer: "365 Data Science",
+    date: "2024",
+    id: "CKA-2023",
+    link: "https://learn.365datascience.com/c/57ed0b0c24/",
+    logo: "/Assets/company/365datascience_logo.jpeg",
+  },
+  {
+    name: "Continuous Integration and Continuous Delivery (CI/CD)",
+    issuer: "IBM - Coursera",
+    date: "2022",
+    id: "TF-DEV",
+    link: "https://www.coursera.org/account/accomplishments/verify/5ZZUPTZTJAHP",
+    logo: "/Assets/company/coursera_logo.jpeg",
+  },
+  {
+    name: "EF SET English Certificate",
+    issuer: "EF Standard English Test",
+    date: "2026",
+    id: "HCT-002",
+    link: "https://cert.efset.org/en/H9phQy",
+    logo: "/Assets/company/efset_logo.jpeg",
+  },
+  {
+    name: "Certificate of completion - Git and GitHub",
+    issuer: "365 Data Science",
+    date: "2024",
+    id: "AZ-900",
+    link: "https://learn.365datascience.com/certificates/CC-D036A13C39/",
+    logo: "/Assets/company/365datascience_logo.jpeg",
+  },
+];
+---
+
+<section id="certifications" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal mb-8">
+      <span class="prompt font-mono text-base">❯ </span>
+      <span class="command font-mono text-base">ls ~/certifications</span>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {certifications.map((cert, i) => (
+        <a
+          href={cert.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={`reveal reveal-delay-${(i % 4) + 1} group terminal-window hover:accent-border transition-all duration-300 p-5 block`}
+        >
+          <div class="flex items-start justify-between mb-3">
+            <div class="company-avatar overflow-hidden p-0">
+              <img src={cert.logo} alt={cert.issuer} class="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <span class="font-mono text-xs text-text-muted">{cert.id}</span>
+          </div>
+          <h3 class="font-mono text-text-primary font-medium text-base mb-1 group-hover:text-accent transition-colors leading-tight">
+            {cert.name}
+          </h3>
+          <p class="text-text-secondary text-sm mb-1">{cert.issuer}</p>
+          <p class="text-text-muted text-sm font-mono">{cert.date}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
