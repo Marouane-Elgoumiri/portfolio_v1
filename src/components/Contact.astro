@@ -20,7 +20,22 @@
         <span class="text-accent">Assistant:</span> I'd love to hear from you. Send me a message and I'll get back to you soon.
         </div>
 
-        <form class="space-y-4" id="contact-form">
+        <form 
+          class="space-y-4" 
+          id="contact-form" 
+          name="contact" 
+          method="POST" 
+          data-netlify="true" 
+          netlify-honeypot="bot-field"
+          action="/success"
+        >
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="hidden">
+            <label>
+              Don't fill this out if you're human: <input name="bot-field" />
+            </label>
+          </p>
+
           <div>
           <label class="block font-mono text-sm text-text-muted mb-1">
             <span class="text-accent">from:</span> name
@@ -81,8 +96,21 @@
   const success = document.getElementById("form-success");
 
   form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    form.classList.add("hidden");
-    success?.classList.remove("hidden");
+    // Let the form submit naturally to Netlify
+    // Show loading state
+    const btn = form.querySelector('button[type="submit"]');
+    if (btn) {
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span class="prompt text-bg-primary">❯ </span>sending...';
+      btn.disabled = true;
+    }
   });
+
+  // Check for success query param when returning from Netlify redirect
+  if (window.location.search.includes('submitted=true')) {
+    form?.classList.add("hidden");
+    success?.classList.remove("hidden");
+    // Clean up URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
 </script>
