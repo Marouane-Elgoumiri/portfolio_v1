@@ -24,16 +24,9 @@
           class="space-y-4"
           id="contact-form"
           name="contact"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
         >
-          <input type="hidden" name="form-name" value="contact" />
-          <p class="hidden">
-            <label>
-              Don't fill this out if you're human: <input name="bot-field" />
-            </label>
-          </p>
+          <!-- reply_to holds YOUR email (the owner) -->
+          <input type="hidden" name="reply_to" value="mar.elgoumiri@hotmail.com" />
 
           <div>
             <label class="block font-mono text-sm text-text-muted mb-1">
@@ -41,7 +34,7 @@
             </label>
             <input
               type="text"
-              name="name"
+              name="from_name"
               required
               placeholder="Your Name"
               class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors"
@@ -54,7 +47,7 @@
             </label>
             <input
               type="email"
-              name="email"
+              name="from_email"
               required
               placeholder="you@example.com"
               class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors"
@@ -94,15 +87,26 @@
 </section>
 
 <script>
+  import emailjs from "@emailjs/browser";
+
   const form = document.getElementById("contact-form");
   const success = document.getElementById("form-success");
   const errorEl = document.getElementById("form-error");
+
+  const PUBLIC_KEY = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY;
+  const SERVICE_ID = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID;
+  const TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
+  const AUTO_REPLY_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_AUTO_REPLY_TEMPLATE_ID;
+
+  if (!PUBLIC_KEY || !SERVICE_ID || !TEMPLATE_ID) {
+    console.error("EmailJS environment variables are missing. Check your .env file.");
+  }
 
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const btn = form.querySelector('button[type="submit"]');
-    const originalHTML = btn ? btn.innerHTML : '';
+    const originalHTML = btn ? btn.innerHTML : "";
 
     if (btn) {
       btn.innerHTML = '<span class="prompt text-bg-primary">❯ </span>sending...';
@@ -110,20 +114,19 @@
     }
 
     try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(new FormData(form)).toString(),
-      });
+      // 1. Send notification to you (owner)
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form, PUBLIC_KEY);
 
-      if (response.ok) {
-        form.classList.add("hidden");
-        success?.classList.remove("hidden");
-        form.reset();
-      } else {
-        throw new Error("Submission failed");
+      // 2. Send auto-reply to the visitor (optional)
+      if (AUTO_REPLY_TEMPLATE_ID) {
+        await emailjs.sendForm(SERVICE_ID, AUTO_REPLY_TEMPLATE_ID, form, PUBLIC_KEY);
       }
-    } catch {
+
+      form.classList.add("hidden");
+      success?.classList.remove("hidden");
+      form.reset();
+    } catch (err) {
+      console.error("EmailJS error:", err);
       errorEl?.classList.remove("hidden");
       if (btn) {
         btn.innerHTML = originalHTML;
