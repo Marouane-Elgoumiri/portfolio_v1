@@ -16,18 +16,17 @@
         <span class="terminal-title">compose message</span>
       </div>
       <div class="terminal-body">
-      <div class="mb-4 text-text-muted text-sm border-b border-border pb-2">
-        <span class="text-accent">Assistant:</span> I'd love to hear from you. Send me a message and I'll get back to you soon.
+        <div class="mb-4 text-text-muted text-sm border-b border-border pb-2">
+          <span class="text-accent">Assistant:</span> I'd love to hear from you. Send me a message and I'll get back to you soon.
         </div>
 
-        <form 
-          class="space-y-4" 
-          id="contact-form" 
-          name="contact" 
-          method="POST" 
-          data-netlify="true" 
+        <form
+          class="space-y-4"
+          id="contact-form"
+          name="contact"
+          method="POST"
+          data-netlify="true"
           netlify-honeypot="bot-field"
-          action="/success"
         >
           <input type="hidden" name="form-name" value="contact" />
           <p class="hidden">
@@ -37,41 +36,41 @@
           </p>
 
           <div>
-          <label class="block font-mono text-sm text-text-muted mb-1">
-            <span class="text-accent">from:</span> name
-          </label>
-          <input
-            type="text"
-            name="name"
-            required
-            placeholder="Your Name"
-            class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors"
+            <label class="block font-mono text-sm text-text-muted mb-1">
+              <span class="text-accent">from:</span> name
+            </label>
+            <input
+              type="text"
+              name="name"
+              required
+              placeholder="Your Name"
+              class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors"
             />
           </div>
 
           <div>
-          <label class="block font-mono text-sm text-text-muted mb-1">
-            <span class="text-accent">from:</span> email
-          </label>
-          <input
-            type="email"
-            name="email"
-            required
-            placeholder="you@example.com"
-            class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors"
+            <label class="block font-mono text-sm text-text-muted mb-1">
+              <span class="text-accent">from:</span> email
+            </label>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="you@example.com"
+              class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors"
             />
           </div>
 
           <div>
-          <label class="block font-mono text-sm text-text-muted mb-1">
-            <span class="text-accent">subject:</span> message
-          </label>
-          <textarea
-            name="message"
-            rows="4"
-            required
-            placeholder="Your message..."
-            class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors resize-none"
+            <label class="block font-mono text-sm text-text-muted mb-1">
+              <span class="text-accent">subject:</span> message
+            </label>
+            <textarea
+              name="message"
+              rows="4"
+              required
+              placeholder="Your message..."
+              class="w-full bg-bg-secondary border border-border rounded px-3 py-2.5 font-mono text-base text-text-primary placeholder-text-muted focus:border-accent focus:outline-none transition-colors resize-none"
             ></textarea>
           </div>
 
@@ -86,6 +85,9 @@
         <div id="form-success" class="hidden mt-4 text-green-400 font-mono text-base">
           <span class="text-accent">Assistant:</span> Message sent! I'll reply as soon as possible ✓
         </div>
+        <div id="form-error" class="hidden mt-4 text-red-400 font-mono text-base">
+          <span class="text-accent">Error:</span> Something went wrong. Please try again.
+        </div>
       </div>
     </div>
   </div>
@@ -94,23 +96,39 @@
 <script>
   const form = document.getElementById("contact-form");
   const success = document.getElementById("form-success");
+  const errorEl = document.getElementById("form-error");
 
-  form?.addEventListener("submit", (e) => {
-    // Let the form submit naturally to Netlify
-    // Show loading state
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
     const btn = form.querySelector('button[type="submit"]');
+    const originalHTML = btn ? btn.innerHTML : '';
+
     if (btn) {
-      const originalText = btn.innerHTML;
       btn.innerHTML = '<span class="prompt text-bg-primary">❯ </span>sending...';
       btn.disabled = true;
     }
-  });
 
-  // Check for success query param when returning from Netlify redirect
-  if (window.location.search.includes('submitted=true')) {
-    form?.classList.add("hidden");
-    success?.classList.remove("hidden");
-    // Clean up URL
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(new FormData(form)).toString(),
+      });
+
+      if (response.ok) {
+        form.classList.add("hidden");
+        success?.classList.remove("hidden");
+        form.reset();
+      } else {
+        throw new Error("Submission failed");
+      }
+    } catch {
+      errorEl?.classList.remove("hidden");
+      if (btn) {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      }
+    }
+  });
 </script>
